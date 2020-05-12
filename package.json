@@ -1,0 +1,28 @@
+{
+  "name": "stock-ticker",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "mocha": {
+    "require": "ts-node/register",
+    "reporter": "spec",
+    "recursive": true,
+    "checkLeaks": true,
+    "exit": true,
+    "spec": "test/**/*.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:DariuszWietecha/stock-ticker.git"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "author": "Dariusz Wietecha",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1"
+  },
+  "devDependencies": {}
+}
