@@ -19,7 +19,7 @@ dwa moduły:
 Dwa endpoipnty:
 1- ticker data dla wybranych stock-ów
 2 - lista dostępnych stocków
-
+aby zapewnić nieprzerwaną aktualizacje - pm2
 Informacja o niedostępności źródła danych i braku aktualizacji przez określony czas(do konfigurowania)
 
 How would I implement error handling?
@@ -27,3 +27,19 @@ How would I make this scale?
 How would I test this solution?
 What security requirements could I consider?
 przeciążenia
+
+SERVER_LOG_RULE=["*"]
+REQUEST_LOG_RULE=false
+
+nazwy symboli z :
+
+1. Zasilanie bazy w dane
+- docker
+- readme
+- unit testy
+tslint i parametry
+2. Public API
+- docker
+- readme
+- unit testy
+? docs
