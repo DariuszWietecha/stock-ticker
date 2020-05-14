@@ -8,7 +8,10 @@ Założyłem że ticker ma dawać podstawową funkcjonalność ticker data dla w
 
 Hapi - generally I decided to use framework to utilize available solutions e.g. for error handnling, and to make the API ready for scaling. Hapi because it is designed for REST API, fast and handle solutions to avoid blocking the event loop out of the box.
 
-MongoDB - dobra do ... https://dzone.com/articles/why-mongodb
+jak najprostsze, przez to najwydajniejsze
+Redis - najszybsza
+Config w .env dla uproszczenia
+Swagger for documentation
 
 dwa moduły:
 1. Zasilanie bazy w dane

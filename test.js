@@ -19,3 +19,4 @@ socket.addEventListener('message', function (event) {
  var unsubscribe = function(symbol) {
     socket.send(JSON.stringify({'type':'unsubscribe','symbol': symbol}))
 }
+
