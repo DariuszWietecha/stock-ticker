@@ -1,6 +1,6 @@
 "use strict";
 
-const lib = require("./lib");
+const Lib = require("./lib");
 const Hapi = require("@hapi/hapi");
 
 const server = Hapi.server({
@@ -12,7 +12,7 @@ const server = Hapi.server({
   host: "localhost"
 });
 
-server.method("getStockTickers", lib.getStockTickers, {
+server.method("getStockTickers", Lib.getStockTickers, {
   cache: {
     expiresIn: 1000,
     generateTimeout: 2000
@@ -28,7 +28,7 @@ server.route({
 server.route({
   method: "GET",
   path: "/symbols",
-  handler: () => lib.getSymbols()
+  handler: () => Lib.getSymbols()
 });
 
 exports.init = async () => {

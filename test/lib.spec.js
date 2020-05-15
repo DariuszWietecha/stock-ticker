@@ -11,12 +11,10 @@ const myModule = Rewire("../src/lib.js");
 
 describe("lib", () => {
   it("getSymbols", async () => {
-    const lrangeAsync = sinon.spy(() => {
-      return [
-        `{"description":"APPLE INC","displaySymbol":"AAPL","symbol":"AAPL"}`,
-        `{"description":"MICROSOFT CORP","displaySymbol":"MSFT","symbol":"MSFT"}`
-      ];
-    });
+    const lrangeAsync = sinon.stub().resolves([
+      `{"description":"APPLE INC","displaySymbol":"AAPL","symbol":"AAPL"}`,
+      `{"description":"MICROSOFT CORP","displaySymbol":"MSFT","symbol":"MSFT"}`
+    ]);
 
     myModule.__set__("lrangeAsync", lrangeAsync);
 

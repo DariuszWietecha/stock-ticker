@@ -1,4 +1,4 @@
-"use strict";
+"Lib";
 
 const redisClient = require("redis-connection")();
 const { promisify } = require("util");
