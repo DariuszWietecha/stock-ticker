@@ -1,2 +1,6 @@
+"use strict";
+
 require("dotenv").config();
-require("./src/index.js");
+const { start } = require("./src/server");
+
+start();

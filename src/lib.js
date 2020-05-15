@@ -1,16 +1,27 @@
+"use strict";
+
 const redisClient = require("redis-connection")();
 const { promisify } = require("util");
 
 /**
  * @param {string} key
- * @returns {Promise<Array>}
+ * @returns {Promise<Array<string>>}
  */
 const lrangeAsync = promisify(redisClient.lrange).bind(redisClient);
 /**
  * @param {string} key
- * @returns {Promise}
+ * @returns {Promise<Array<string>>}
  */
 const hgetallAsync = promisify(redisClient.hgetall).bind(redisClient);
+
+/**
+ * @param {number} pc
+ * @param {number} p
+ * @returns {string} 
+ */
+const getChangeAmount = (pc, p) => {
+  return (Math.round(((p - pc) + Number.EPSILON) * 100) / 100).toString();
+};
 
 /**
  * @param {number} pc
@@ -40,7 +51,7 @@ const getStockTickerData = async (stock) => {
     const pInt = parseFloat(res.p);
 
     res.cd = getChangeDirection(pcInt, pInt);
-    res.ca = Math.round(((pInt - pcInt) + Number.EPSILON) * 100) / 100;
+    res.ca = getChangeAmount(pcInt, pInt);
   } else {
     res.error = "Previous day's closing price not available";
   }

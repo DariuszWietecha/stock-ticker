@@ -43,3 +43,5 @@ tslint i parametry
 - readme
 - unit testy
 ? docs
+
+ca to string

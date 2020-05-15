@@ -3,21 +3,13 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "mocha": {
-    "require": "ts-node/register",
-    "reporter": "spec",
-    "recursive": true,
-    "checkLeaks": true,
-    "exit": true,
-    "spec": "test/**/*.spec.ts"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:DariuszWietecha/stock-ticker.git"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "lab -v"
   },
   "author": "Dariusz Wietecha",
   "license": "ISC",
@@ -29,7 +21,11 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
+    "@hapi/code": "^8.0.1",
+    "@hapi/lab": "^22.0.4",
     "@types/node": "^14.0.1",
+    "rewire": "^5.0.0",
+    "sinon": "^9.0.2",
     "tslint": "^6.1.2",
     "typescript": "^3.9.2"
   }
