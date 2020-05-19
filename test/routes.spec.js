@@ -33,7 +33,7 @@ describe("Routes", () => {
         expect(res.statusCode).to.equal(200);
     });
 
-    it("GET / responds with 404", async () => {
+    it("GET unknown route responds with 404", async () => {
         const res = await server.inject({
             method: "get",
             url: "/"

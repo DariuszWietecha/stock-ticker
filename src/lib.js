@@ -33,7 +33,7 @@ const getChangeDirection = (pc, p) => {
     return "down";
   } else if (pc < p) {
     return "up";
-  } else if (pc < p) {
+  } else if (pc === p) {
     return "equal";
   }
   throw new Error("Comparing pricess error");
@@ -45,13 +45,13 @@ const getChangeDirection = (pc, p) => {
  */
 const getStockTickerData = async (stock) => {
   const res = await hgetallAsync(stock);
-  // console.log(`${stock}: `, reply);
-  if (res.pc !== 0) {
-    const pcInt = parseFloat(res.pc);
-    const pInt = parseFloat(res.p);
 
-    res.cd = getChangeDirection(pcInt, pInt);
-    res.ca = getChangeAmount(pcInt, pInt);
+  if (typeof res.pc !== "undefined") {
+    const pcFloat = parseFloat(res.pc);
+    const pFloat = parseFloat(res.p);
+
+    res.cd = getChangeDirection(pcFloat, pFloat);
+    res.ca = getChangeAmount(pcFloat, pFloat);
   } else {
     res.error = "Previous day's closing price not available";
   }

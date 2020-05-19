@@ -41,7 +41,6 @@ tslint i parametry
 2. Public API
 - docker
 - readme
-- unit testy
+- ? strcture - https://medium.com/the-resonant-web/production-ready-hapi-js-starter-kit-part-2-cba358373017
 ? docs
 
-ca to string

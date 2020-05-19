@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "lab -v"
+    "test": "lab -v",
+    "test-cov": "lab -c"
   },
   "author": "Dariusz Wietecha",
   "license": "ISC",
