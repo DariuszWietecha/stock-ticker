@@ -46,16 +46,22 @@ const getChangeDirection = (pc, p) => {
 const getStockTickerData = async (stock) => {
   const res = await hgetallAsync(stock);
 
-  if (typeof res.pc !== "undefined") {
-    const pcFloat = parseFloat(res.pc);
-    const pFloat = parseFloat(res.p);
-
-    res.cd = getChangeDirection(pcFloat, pFloat);
-    res.ca = getChangeAmount(pcFloat, pFloat);
-  } else {
-    res.error = "Previous day's closing price not available";
+  if (res === null) {
+    return {
+      s: stock,
+      error: `Sticker data for '${stock}' is not available`,
+    };
   }
 
+  if (typeof res.pc === "undefined") {
+    res.error = "Previous day's closing price not available";
+    return res;
+  }
+
+  const pcFloat = parseFloat(res.pc);
+  const pFloat = parseFloat(res.p);
+  res.cd = getChangeDirection(pcFloat, pFloat);
+  res.ca = getChangeAmount(pcFloat, pFloat);
   return res;
 };
 
@@ -65,7 +71,7 @@ const getStockTickerData = async (stock) => {
  */
 const getStockTickers = (tickerFromUrl) => {
   const tickerParts = tickerFromUrl.split("/");
-  return Promise.all(tickerParts.map((stock) => getStockTickerData(stock)));
+  return Promise.all(tickerParts.map((stock) => getStockTickerData(stock.toUpperCase())));
 };
 
 /**

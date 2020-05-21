@@ -38,7 +38,9 @@ describe("lib", () => {
         .withArgs("TEST")
         .resolves({ "pc": "181", "p": "181", "s": "TEST", "t": "1589486884772", "v": "1" })
         .withArgs("TEST1")
-        .resolves({ "p": "181", "s": "TEST1", "t": "1589486884772", "v": "1", "error": "Previous day's closing price not available"});
+        .resolves({ "p": "181", "s": "TEST1", "t": "1589486884772", "v": "1", "error": "Previous day's closing price not available"})
+        .withArgs("TEST2")
+        .resolves(null);
 
       libModule.__set__("hgetallAsync", hgetallAsyncStub);
 
@@ -76,10 +78,14 @@ describe("lib", () => {
           "t": "1589486884772",
           "v": "1",
           "error": "Previous day's closing price not available"
+        },
+        {
+          "s": "TEST2",
+          "error": "Sticker data for 'TEST2' is not available"
         }
       ];
 
-      const tickers = await libModule.getStockTickers("AAPL/MSFT/TEST/TEST1");
+      const tickers = await libModule.getStockTickers("AAPL/MSFT/TEST/TEST1/TEST2");
       expect(tickers).to.equal(requiredTickets);
     });
 

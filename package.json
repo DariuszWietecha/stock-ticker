@@ -10,15 +10,18 @@
   "scripts": {
     "start": "node index.js",
     "test": "lab -v",
-    "test-cov": "lab -c"
+    "test-cov": "lab -c",
+    "test-cov-html": "lab -r html -o coverage.html"
   },
   "author": "Dariusz Wietecha",
   "license": "ISC",
+  "engines": {
+    "node": ">=v12.0.0"
+  },
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
     "dotenv": "^8.2.0",
     "redis-connection": "^5.4.0",
-    "socket.io-client": "^2.3.0",
     "ws": "^7.3.0"
   },
   "devDependencies": {

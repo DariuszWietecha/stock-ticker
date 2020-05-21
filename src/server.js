@@ -8,8 +8,8 @@ const server = Hapi.server({
     request: JSON.parse(process.env.REQUEST_LOG_RULE),
     log: JSON.parse(process.env.SERVER_LOG_RULE)
   },
-  port: 3000,
-  host: "localhost"
+  port: process.env.PORT || 8080,
+  host: process.env.HOST || "0.0.0.0"
 });
 
 server.method("getStockTickers", Lib.getStockTickers, {
@@ -42,8 +42,8 @@ exports.start = async () => {
   return server;
 };
 
-process.on("unhandledRejection", (err) => {
+process.on("unhandledRejection", (error) => {
   // tslint:disable-next-line:no-console
-  console.log(err);
+  console.log(error);
   process.exit(1);
 });

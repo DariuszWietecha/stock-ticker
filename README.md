@@ -1,46 +1,130 @@
-Make a dockerised node.js rest service that returns stock ticker prices from the stock exchange of your choice.
+# Stock-ticker
 
-For the technical interview, it would also be useful for you to think about these questions:
 
-What architecture, design patterns and nodejs technology decisions have I made?
+## Introduction
+Simple REST API provides stock ticker data for required securities based on Node.js and Redis. 
 
-Założyłem że ticker ma dawać podstawową funkcjonalność ticker data dla wybranych stock-ów, ze wskazaniem rośnie czy spada, lista dostępnych stocków, być gotowy na bardzo dużą listę zapytań(cache), niezależny od źródła danych, replikacja danych we własna bazie danych. Chciałem serwować dane dotyczące polskich stock-ów, ale nie znalazłem darmowego API z danymi odświeżanymi na bierząco. Finnhub to pierwsze free API, które pozwalało na częste zapytania. 
+The API was deployed on [https://stock-ticker-100.herokuapp.com/](https://stock-ticker-100.herokuapp.com/)
 
-Hapi - generally I decided to use framework to utilize available solutions e.g. for error handnling, and to make the API ready for scaling. Hapi because it is designed for REST API, fast and handle solutions to avoid blocking the event loop out of the box.
+Feeder for it was implemented in [https://github.com/DariuszWietecha/stock-ticker-feeder](https://github.com/DariuszWietecha/stock-ticker-feeder).
 
-jak najprostsze, przez to najwydajniejsze
-Redis - najszybsza
-Config w .env dla uproszczenia
-Swagger for documentation
 
-dwa moduły:
-1. Zasilanie bazy w dane
-2. Public API
-Dwa endpoipnty:
-1- ticker data dla wybranych stock-ów
-2 - lista dostępnych stocków
-aby zapewnić nieprzerwaną aktualizacje - pm2
-Informacja o niedostępności źródła danych i braku aktualizacji przez określony czas(do konfigurowania)
+## Endpoints
+1. Get securities list
+* Request: 
 
-How would I implement error handling?
-How would I make this scale?
-How would I test this solution?
-What security requirements could I consider?
-przeciążenia
+  Method: `GET`
 
-SERVER_LOG_RULE=["*"]
-REQUEST_LOG_RULE=false
+  URL: `https://stock-ticker-100.herokuapp.com/symbols`
 
-nazwy symboli z :
+* Response example:
+```
+[
+  {
+    "description": "APPLE INC",
+    "displaySymbol": "AAPL",
+    "symbol": "AAPL"
+  },
+  {
+    "description": "MICROSOFT CORP",
+    "displaySymbol": "MSFT",
+    "symbol": "MSFT"
+  }
+  ...
+]
+```
+2. Get ticker data for required securities
+* Request: 
 
-1. Zasilanie bazy w dane
-- docker
-- readme
-- unit testy
-tslint i parametry
-2. Public API
-- docker
-- readme
-- ? strcture - https://medium.com/the-resonant-web/production-ready-hapi-js-starter-kit-part-2-cba358373017
-? docs
+  Method: `GET`
 
+  URL: `https://stock-ticker-100.herokuapp.com/tickers/{symbol 1st}/{symbol 1st}/...{symbol n}`
+
+Ticker data is available only for stocks listed in response from `Get securities list` endpoint.
+
+* Response example for `https://stock-ticker-100.herokuapp.com/tickers/AAPL/MSFT`:
+```
+[
+  {
+    "p": "314.4",
+    "s": "AAPL",
+    "pc": "314.96",
+    "t": "1589930233941",
+    "v": "5",
+    "cd": "down",
+    "ca": "-0.56"
+  },
+  {
+    "p": "183.98",
+    "s": "MSFT",
+    "pc": "184.91",
+    "t": "1589930239480",
+    "v": "5",
+    "cd": "down",
+    "ca": "-0.93"
+  }
+]]
+```
+
+
+## Implementation details
+API and feeder were implemented as separate services to increase the reliability of the first.
+
+API use Redis database and cache `Get ticker data for required securities` endpoint for 1000 milliseconds to be able to handle a big load.
+
+Source of real US stocks trade data is [Finnhub API](https://finnhub.io/). 
+
+Used dependencies:
+- [@hapi/hapi](https://github.com/hapijs/hapi)
+- [redis-connection](https://github.com/dwyl/redis-connection)
+- [ws](https://github.com/websockets/ws)
+- [dotenv](https://github.com/motdotla/dotenv)
+- [@hapi/code](https://github.com/hapijs/code)
+- [@hapi/lab](https://github.com/hapijs/lab)
+- [rewire](https://github.com/jhnns/rewire)
+- [sinon](https://github.com/sinonjs/sinon)
+
+During the implementation was used node v12.0.0.
+
+
+## Running the app
+### Running localy
+1. Install dependencies using 
+
+`npm install`.
+
+2. Copy `example.env` as `.env` and update it with real passwords and Redis instance host. To change the `host/port` to different than `0.0.0.0/8080` add `HOST` and `PORT` variable to the .env file.
+3. Run app using
+
+`npm start`.
+
+4. The App will be available on [http://0.0.0.0:8080](http://0.0.0.0:8080)(If host/port wasn't changed by `.env`).
+
+### Running in the docker container
+1.  Copy `example.env` as `.env` and update it with real passwords and redis instance host. To change the host/port to different than 0.0.0.0/8080 add HOST and PORT variable to the .env file.
+2. Install Docker.
+3. Build the image: 
+
+`docker build -t stock-ticker .`
+
+4. Run image:
+
+`docker run --env-file .env -p 8000:8080 stock-ticker` (windows)
+
+`docker run --env-file ./env -p 8000:8080 stock-ticker` (linux)
+
+5. API will be available on [http://localhost:8000](http://localhost:8000)(or another host proper for your docker).
+
+
+## Unit tests
+[Coverage](https://github.com/DariuszWietecha/stock-ticker/blob/master/coverage.html): 91.86%
+
+
+#### Running:
+1. Install dependencies and build using `npm install`.
+2. Run unit tests by `npm test`.
+3. To check test coverage run `npm run test-cov` or `test-cov-html`(It creates a report in [coverage.html](https://github.com/DariuszWietecha/stock-ticker-feeder/blob/master/coverage.html)).
+
+
+## Notes
+* .vscode directory was committed to the repository to let to debug the workflow execution and unit tests execution in VSCode.
