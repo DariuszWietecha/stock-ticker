@@ -65,7 +65,16 @@ Ticker data is available only for stocks listed in response from `Get securities
   }
 ]]
 ```
-
+Meaning of the attributes:
+| Attribute | Attribute name | Description |
+| --------- | -------------- | ----------- |
+| p | Price Traded |	The price per share for the particular trade (the last bid price). |
+| s | Ticker Symbol |	The unique characters used to identify the company. |
+| pc | Previous close price |	Close price from previous day. |
+| t | Timestamp. |	UNIX milliseconds timestamp of the last trade. |
+| v | Shares Traded |	The volume for the trade being quoted. |
+| cd | Change Direction |	Shows whether the stock is trading higher or lower than the previous day's closing price. |
+| ca | Change Amount | The difference in price from the previous day's close. |
 
 ## Implementation details
 API and feeder were implemented as separate services to increase the reliability of the first.
