@@ -1,6 +1,11 @@
 "use strict";
 
 require("dotenv").config();
-const { start } = require("./src/server");
+const { createServer } = require("./src/createServer");
 
-start();
+(async () => {
+  const server = await createServer();
+  await server.initialize();
+  await server.start();
+  server.log("info", `Server running on ${server.info.uri}`, server.info.uri);
+})();

@@ -72,6 +72,8 @@ API and feeder were implemented as separate services to increase the reliability
 
 API use Redis database and cache `Get ticker data for required securities` endpoint for 1000 milliseconds to be able to handle a big load.
 
+The API hold on 1100 `stock-ticker-100.herokuapp.com/tickers/AAPL/GM/INTC/MSFT/NKE/NVDA/TSLA` requests per second for 1 min with 0.0 % err rate and 310 ms avg resp - [details of the test](https://bit.ly/2WUsu2O).
+
 Source of real US stocks trade data is [Finnhub API](https://finnhub.io/). 
 
 Used dependencies:
@@ -117,7 +119,7 @@ During the implementation was used node v12.0.0.
 
 
 ## Unit tests
-[Coverage](https://github.com/DariuszWietecha/stock-ticker/blob/master/coverage.html): 91.86%
+[Coverage](https://github.com/DariuszWietecha/stock-ticker/blob/master/coverage.html): 95.79%
 
 
 #### Running:
