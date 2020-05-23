@@ -31,6 +31,14 @@ server.route({
   handler: () => Lib.getSymbols()
 });
 
+server.route({
+  method: 'GET',
+  path: '/loaderio-c7933e1ff0a2f4e68de7b65957153cf4.txt',
+  handler: {
+      file: '/public/loaderio-c7933e1ff0a2f4e68de7b65957153cf4.txt'
+  }
+});
+
 exports.init = async () => {
   await server.initialize();
   return server;
