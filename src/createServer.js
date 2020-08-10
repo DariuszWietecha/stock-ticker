@@ -32,13 +32,19 @@ exports.createServer = async () => {
   server.route({
     method: "GET",
     path: "/tickers/{ticker*}",
-    handler: (request) => server.methods.getStockTickers(request.params.ticker)
+    handler: (request) => server.methods.getStockTickers(request.params.ticker),
+    options: {
+      cors: true,
+    }
   });
 
   server.route({
     method: "GET",
     path: "/symbols",
-    handler: () => Lib.getSymbols()
+    handler: () => Lib.getSymbols(),
+    options: {
+      cors: true,
+    }
   });
 
   server.route({
